@@ -14,7 +14,7 @@ RSpec.describe "casa_cases/edit", type: :view do
     let(:user) { build_stubbed(:volunteer, casa_org: organization) }
 
     it "does not include volunteer assignment" do
-      assign :casa_case, create(:casa_case, casa_org: organization)
+      assign :casa_case, build_stubbed(:casa_case, casa_org: organization)
 
       render template: "casa_cases/edit"
 
@@ -27,7 +27,7 @@ RSpec.describe "casa_cases/edit", type: :view do
     let(:user) { build_stubbed(:casa_admin, casa_org: organization) }
 
     it "includes volunteer assignment" do
-      assign :casa_case, create(:casa_case, casa_org: organization)
+      assign :casa_case, build_stubbed(:casa_case, casa_org: organization)
 
       render template: "casa_cases/edit"
 

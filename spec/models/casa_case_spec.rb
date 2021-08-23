@@ -30,10 +30,10 @@ RSpec.describe CasaCase, type: :model do
 
   describe "#should_transition" do
     it "returns only youth who should have transitioned but have not" do
-      not_transitioned_13_yo = create(:casa_case,
+      not_transitioned_13_yo = build(:casa_case,
         birth_month_year_youth: Date.current - 13.years,
         transition_aged_youth: false)
-      transitioned_14_yo = create(:casa_case,
+      transitioned_14_yo = build(:casa_case,
         birth_month_year_youth: Date.current - 14.years,
         transition_aged_youth: true)
       not_transitioned_14_yo = create(:casa_case,
@@ -51,19 +51,19 @@ RSpec.describe CasaCase, type: :model do
 
   describe ".actively_assigned_to" do
     it "only returns cases actively assigned to a volunteer" do
-      current_user = create(:volunteer)
-      inactive_case = create(:casa_case, casa_org: current_user.casa_org)
-      create(:case_assignment, casa_case: inactive_case, volunteer: current_user, active: false)
+      current_user = build(:volunteer)
+      inactive_case = build(:casa_case, casa_org: current_user.casa_org)
+      build_stubbed(:case_assignment, casa_case: inactive_case, volunteer: current_user, active: false)
       active_cases = create_list(:casa_case, 2, casa_org: current_user.casa_org)
       active_cases.each do |casa_case|
         create(:case_assignment, casa_case: casa_case, volunteer: current_user, active: true)
       end
 
-      other_user = create(:volunteer)
-      other_active_case = create(:casa_case, casa_org: other_user.casa_org)
-      other_inactive_case = create(:casa_case, casa_org: other_user.casa_org)
-      create(:case_assignment, casa_case: other_active_case, volunteer: other_user, active: true)
-      create(
+      other_user = build(:volunteer)
+      other_active_case = build_stubbed(:casa_case, casa_org: other_user.casa_org)
+      other_inactive_case = build_stubbed(:casa_case, casa_org: other_user.casa_org)
+      build_stubbed(:case_assignment, casa_case: other_active_case, volunteer: other_user, active: true)
+      build_stubbed(
         :case_assignment,
         casa_case: other_inactive_case, volunteer: other_user, active: false
       )
@@ -74,21 +74,21 @@ RSpec.describe CasaCase, type: :model do
 
   describe ".not_assigned" do
     it "only returns cases NOT actively assigned to ANY volunteer" do
-      current_user = create(:volunteer)
+      current_user = build(:volunteer)
 
       never_assigned_case = create(:casa_case, casa_org: current_user.casa_org)
 
-      inactive_case = create(:casa_case, casa_org: current_user.casa_org)
+      inactive_case = build(:casa_case, casa_org: current_user.casa_org)
       create(:case_assignment, casa_case: inactive_case, volunteer: current_user, active: false)
       active_cases = create_list(:casa_case, 2, casa_org: current_user.casa_org)
       active_cases.each do |casa_case|
         create(:case_assignment, casa_case: casa_case, volunteer: current_user, active: true)
       end
 
-      other_user = create(:volunteer)
-      other_active_case = create(:casa_case, casa_org: other_user.casa_org)
-      other_inactive_case = create(:casa_case, casa_org: other_user.casa_org)
-      create(:case_assignment, casa_case: other_active_case, volunteer: other_user, active: true)
+      other_user = build(:volunteer)
+      other_active_case = build_stubbed(:casa_case, casa_org: other_user.casa_org)
+      other_inactive_case = build(:casa_case, casa_org: other_user.casa_org)
+      build(:case_assignment, casa_case: other_active_case, volunteer: other_user, active: true)
       create(
         :case_assignment,
         casa_case: other_inactive_case, volunteer: other_user, active: false
@@ -99,7 +99,7 @@ RSpec.describe CasaCase, type: :model do
   end
 
   describe "#court_report_status=" do
-    let(:casa_case) { build(:casa_case) }
+    let(:casa_case) { build_stubbed(:casa_case) }
     subject { casa_case.court_report_status = court_report_status }
 
     let(:submitted_time) { Time.parse("Sun Nov 08 11:06:20 2020") }
@@ -113,7 +113,7 @@ RSpec.describe CasaCase, type: :model do
     end
 
     context "when the case is already submitted" do
-      let(:casa_case) { build(:casa_case, court_report_status: :submitted, court_report_submitted_at: submitted_time) }
+      let(:casa_case) { build_stubbed(:casa_case, court_report_status: :submitted, court_report_submitted_at: submitted_time) }
       before do
         travel_to the_future
       end
@@ -157,11 +157,11 @@ RSpec.describe CasaCase, type: :model do
   end
 
   describe ".available_for_volunteer" do
-    let(:casa_org) { create(:casa_org) }
+    let(:casa_org) { build(:casa_org) }
     let!(:casa_case1) { create(:casa_case, :with_case_assignments, case_number: "foo", casa_org: casa_org) }
     let!(:casa_case2) { create(:casa_case, :with_case_assignments, case_number: "bar", casa_org: casa_org) }
     let!(:casa_case3) { create(:casa_case, case_number: "baz", casa_org: casa_org) }
-    let!(:casa_case4) { create(:casa_case, casa_org: create(:casa_org)) }
+    let!(:casa_case4) { build(:casa_case, casa_org: build(:casa_org)) }
     let(:volunteer) { create(:volunteer, casa_org: casa_org) }
 
     context "when volunteer has no case assignments" do
@@ -171,8 +171,8 @@ RSpec.describe CasaCase, type: :model do
     end
 
     context "when volunteer has case assignments" do
-      let(:volunteer2) { create(:volunteer, casa_org: casa_org) }
-      let(:casa_case) { create(:casa_case, casa_org: casa_org) }
+      let(:volunteer2) { build(:volunteer, casa_org: casa_org) }
+      let(:casa_case) { build(:casa_case, casa_org: casa_org) }
 
       it "returns cases to which volunteer is not assigned in same org" do
         casa_case.volunteers << volunteer
@@ -195,7 +195,7 @@ RSpec.describe CasaCase, type: :model do
 
   context "#add_emancipation_option" do
     let(:casa_case) { create(:casa_case) }
-    let(:emancipation_category) { create(:emancipation_category, mutually_exclusive: true) }
+    let(:emancipation_category) { build(:emancipation_category, mutually_exclusive: true) }
     let(:emancipation_option_a) { create(:emancipation_option, emancipation_category: emancipation_category) }
     let(:emancipation_option_b) { create(:emancipation_option, emancipation_category: emancipation_category, name: "Not the same name as option A to satisfy unique contraints") }
 
@@ -215,7 +215,7 @@ RSpec.describe CasaCase, type: :model do
 
   context "#remove_emancipation_category" do
     let(:casa_case) { create(:casa_case) }
-    let(:emancipation_category) { create(:emancipation_category) }
+    let(:emancipation_category) { build(:emancipation_category) }
 
     it "dissociates an emancipation category with the case when passed the id of the category" do
       casa_case.emancipation_categories << emancipation_category
@@ -228,7 +228,7 @@ RSpec.describe CasaCase, type: :model do
 
   context "#remove_emancipation_option" do
     let(:casa_case) { create(:casa_case) }
-    let(:emancipation_option) { create(:emancipation_option) }
+    let(:emancipation_option) { build(:emancipation_option) }
 
     it "dissociates an emancipation option with the case when passed the id of the option" do
       casa_case.emancipation_options << emancipation_option
@@ -260,21 +260,21 @@ RSpec.describe CasaCase, type: :model do
   describe "#clear_court_dates" do
     context "when court date has passed" do
       it "clears court date" do
-        casa_case = create(:casa_case, court_date: "2020-09-13 02:11:58")
+        casa_case = build(:casa_case, court_date: "2020-09-13 02:11:58")
         casa_case.clear_court_dates
 
         expect(casa_case.court_date).to be nil
       end
 
       it "clears report due date" do
-        casa_case = create(:casa_case, court_date: "2020-09-13 02:11:58", court_report_due_date: "2020-09-13 02:11:58")
+        casa_case = build(:casa_case, court_date: "2020-09-13 02:11:58", court_report_due_date: "2020-09-13 02:11:58")
         casa_case.clear_court_dates
 
         expect(casa_case.court_report_due_date).to be nil
       end
 
       it "sets court report as unsubmitted" do
-        casa_case = create(:casa_case, court_date: "2020-09-13 02:11:58", court_report_status: :submitted)
+        casa_case = build(:casa_case, court_date: "2020-09-13 02:11:58", court_report_status: :submitted)
         casa_case.clear_court_dates
 
         expect(casa_case.court_report_status).to eq "not_submitted"
@@ -285,8 +285,8 @@ RSpec.describe CasaCase, type: :model do
   describe "#active_case_assignments" do
     it "only includes active assignments" do
       casa_org = create(:casa_org)
-      casa_case = create(:casa_case, casa_org: casa_org)
-      case_assignments = 2.times.map { create(:case_assignment, casa_case: casa_case, volunteer: create(:volunteer, casa_org: casa_org)) }
+      casa_case = build(:casa_case, casa_org: casa_org)
+      case_assignments = 2.times.map { create(:case_assignment, casa_case: casa_case, volunteer: build(:volunteer, casa_org: casa_org)) }
 
       expect(casa_case.active_case_assignments).to eq case_assignments
 
@@ -296,10 +296,10 @@ RSpec.describe CasaCase, type: :model do
   end
 
   describe "#assigned_volunteers" do
-    let(:casa_org) { create(:casa_org) }
-    let(:casa_case) { create(:casa_case, casa_org: casa_org) }
-    let(:volunteer1) { create(:volunteer, casa_org: casa_org) }
-    let(:volunteer2) { create(:volunteer, casa_org: casa_org) }
+    let(:casa_org) { build(:casa_org) }
+    let(:casa_case) { build(:casa_case, casa_org: casa_org) }
+    let(:volunteer1) { build(:volunteer, casa_org: casa_org) }
+    let(:volunteer2) { build(:volunteer, casa_org: casa_org) }
     let!(:case_assignment1) { create(:case_assignment, casa_case: casa_case, volunteer: volunteer1) }
     let!(:case_assignment2) { create(:case_assignment, casa_case: casa_case, volunteer: volunteer2) }
 
@@ -321,7 +321,7 @@ RSpec.describe CasaCase, type: :model do
   describe "report submission" do
     # Creating a case whith a status other than not_submitted and a nil submission date
     it "rejects cases with a court report status, but no submission date" do
-      bad_case = create(:casa_case)
+      bad_case = build_stubbed(:casa_case)
       bad_case.court_report_status = :in_review
       bad_case.court_report_submitted_at = nil
       bad_case.valid?
@@ -332,7 +332,7 @@ RSpec.describe CasaCase, type: :model do
     end
 
     it "rejects cases with a submission date, but no status" do
-      bad_case = create(:casa_case)
+      bad_case = build(:casa_case)
       bad_case.court_report_status = :not_submitted
       bad_case.court_report_submitted_at = DateTime.now
       bad_case.valid?

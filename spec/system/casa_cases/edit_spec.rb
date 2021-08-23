@@ -3,13 +3,13 @@ require "stringio"
 
 RSpec.describe "casa_cases/edit", type: :system do
   context "when admin" do
-    let(:organization) { create(:casa_org) }
+    let(:organization) { build(:casa_org) }
     let(:admin) { create(:casa_admin, casa_org: organization) }
     let(:casa_case) { create(:casa_case, casa_org: organization) }
-    let!(:judge) { create(:judge, casa_org: organization) }
-    let(:contact_type_group) { create(:contact_type_group, casa_org: organization) }
-    let!(:school) { create(:contact_type, name: "School", contact_type_group: contact_type_group) }
-    let!(:therapist) { create(:contact_type, name: "Therapist", contact_type_group: contact_type_group) }
+    let!(:judge) { build(:judge, casa_org: organization) }
+    let(:contact_type_group) { build(:contact_type_group, casa_org: organization) }
+    let!(:school) { build(:contact_type, name: "School", contact_type_group: contact_type_group) }
+    let!(:therapist) { build(:contact_type, name: "Therapist", contact_type_group: contact_type_group) }
 
     before { sign_in admin }
 
@@ -74,12 +74,12 @@ RSpec.describe "casa_cases/edit", type: :system do
   end
 
   context "supervisor user" do
-    let(:casa_org) { create(:casa_org) }
+    let(:casa_org) { build(:casa_org) }
     let(:supervisor) { create(:supervisor, casa_org: casa_org) }
     let(:casa_case) { create(:casa_case, casa_org: casa_org) }
-    let!(:contact_type_group) { create(:contact_type_group, casa_org: casa_org) }
+    let!(:contact_type_group) { build(:contact_type_group, casa_org: casa_org) }
     let!(:contact_type_1) { create(:contact_type, name: "Youth", contact_type_group: contact_type_group) }
-    let!(:contact_type_2) { create(:contact_type, name: "Supervisor", contact_type_group: contact_type_group) }
+    let!(:contact_type_2) { build_stubbed(:contact_type, name: "Supervisor", contact_type_group: contact_type_group) }
     let!(:next_year) { (Date.today.year + 1).to_s }
 
     before do
@@ -191,9 +191,9 @@ RSpec.describe "casa_cases/edit", type: :system do
     end
 
     describe "assign and unassign a volunteer to a case" do
-      let(:organization) { create(:casa_org) }
+      let(:organization) { build(:casa_org) }
       let(:casa_case) { create(:casa_case, casa_org: organization) }
-      let(:supervisor1) { create(:supervisor, casa_org: organization) }
+      let(:supervisor1) { build(:supervisor, casa_org: organization) }
       let!(:volunteer) { create(:volunteer, supervisor: supervisor1, casa_org: organization) }
 
       def sign_in_and_assign_volunteer
@@ -256,7 +256,7 @@ RSpec.describe "casa_cases/edit", type: :system do
       end
 
       context "when supervisor other than volunteer's supervisor" do
-        before { volunteer.update(supervisor: create(:supervisor)) }
+        before { volunteer.update(supervisor: build(:supervisor)) }
 
         it "unassigns volunteer", js: true do
           sign_in_and_assign_volunteer
@@ -272,7 +272,7 @@ RSpec.describe "casa_cases/edit", type: :system do
 
       it "when can assign only active volunteer to a case" do
         create(:volunteer, casa_org: organization)
-        create(:volunteer, :inactive, casa_org: organization)
+        build_stubbed(:volunteer, :inactive, casa_org: organization)
 
         sign_in_and_assign_volunteer
 
@@ -281,7 +281,7 @@ RSpec.describe "casa_cases/edit", type: :system do
     end
 
     describe "case assigned to multiple volunteers" do
-      let(:organization) { create(:casa_org) }
+      let(:organization) { build(:casa_org) }
       let(:supervisor) { create(:casa_admin, casa_org: organization) }
       let(:casa_case) { create(:casa_case, casa_org: organization) }
 
@@ -329,8 +329,8 @@ of it unless it was included in a previous court report.")
   end
 
   context "volunteer user" do
-    let(:volunteer) { create(:volunteer) }
-    let(:casa_case) { create(:casa_case, casa_org: volunteer.casa_org) }
+    let(:volunteer) { build(:volunteer) }
+    let(:casa_case) { build(:casa_case, casa_org: volunteer.casa_org) }
     let!(:case_assignment) { create(:case_assignment, volunteer: volunteer, casa_case: casa_case) }
 
     let!(:court_dates) do

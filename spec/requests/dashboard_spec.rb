@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "/dashboard", type: :request do
-  let(:organization) { create(:casa_org) }
+  let(:organization) { build(:casa_org) }
 
   context "as a volunteer" do
     let(:volunteer) { create(:volunteer, casa_org: organization) }
@@ -25,7 +25,7 @@ RSpec.describe "/dashboard", type: :request do
       end
 
       it "doesn't show other volunteers' cases" do
-        not_logged_in_volunteer = create(:volunteer)
+        not_logged_in_volunteer = build(:volunteer)
         create(:case_assignment, volunteer: not_logged_in_volunteer)
 
         get root_url
@@ -36,8 +36,8 @@ RSpec.describe "/dashboard", type: :request do
       end
 
       it "doesn't show other organizations' cases" do
-        different_org = create(:casa_org)
-        not_my_case_assignment = create(:case_assignment, casa_org: different_org)
+        different_org = build(:casa_org)
+        not_my_case_assignment = build_stubbed(:case_assignment, casa_org: different_org)
 
         get root_url
         follow_redirect!
@@ -49,7 +49,7 @@ RSpec.describe "/dashboard", type: :request do
   end
 
   context "as an admin" do
-    let(:admin) { create(:casa_admin, casa_org: organization) }
+    let(:admin) { build_stubbed(:casa_admin, casa_org: organization) }
     before do
       sign_in admin
     end

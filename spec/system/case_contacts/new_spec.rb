@@ -2,12 +2,12 @@ require "rails_helper"
 
 RSpec.describe "case_contacts/new", type: :system do
   context "when admin" do
-    let(:organization) { create(:casa_org) }
+    let(:organization) { build(:casa_org) }
     let(:admin) { create(:casa_admin, casa_org: organization) }
     let(:casa_case) { create(:casa_case, casa_org: organization) }
-    let(:contact_type_group) { create(:contact_type_group, casa_org: organization) }
-    let!(:empty) { create(:contact_type_group, name: "Empty", casa_org: organization) }
-    let!(:grp_with_hidden) { create(:contact_type_group, name: "OnlyHiddenTypes", casa_org: organization) }
+    let(:contact_type_group) { build(:contact_type_group, casa_org: organization) }
+    let!(:empty) { build(:contact_type_group, name: "Empty", casa_org: organization) }
+    let!(:grp_with_hidden) { build(:contact_type_group, name: "OnlyHiddenTypes", casa_org: organization) }
     let!(:hidden_type) { create(:contact_type, name: "Hidden", active: false, contact_type_group: grp_with_hidden) }
     let!(:school) { create(:contact_type, name: "School", contact_type_group: contact_type_group) }
     let!(:therapist) { create(:contact_type, name: "Therapist", contact_type_group: contact_type_group) }
@@ -106,18 +106,18 @@ RSpec.describe "case_contacts/new", type: :system do
   end
 
   context "mutliple contact type groups" do
-    let(:organization) { create(:casa_org) }
-    let(:admin) { create(:casa_admin, casa_org: organization) }
-    let(:casa_case) { create(:casa_case, casa_org: organization) }
+    let(:organization) { build(:casa_org) }
+    let(:admin) { build(:casa_admin, casa_org: organization) }
+    let(:casa_case) { build(:casa_case, casa_org: organization) }
 
     before do
       sign_in admin
     end
 
     it "should check the correct box when clicking the label" do
-      group_1 = create(:contact_type_group, casa_org: organization)
+      group_1 = build_stubbed(:contact_type_group, casa_org: organization)
       create(:contact_type, name: "School", contact_type_group: group_1)
-      group_2 = create(:contact_type_group, casa_org: organization)
+      group_2 = build(:contact_type_group, casa_org: organization)
       create(:contact_type, name: "Parent", contact_type_group: group_2)
 
       visit new_case_contact_path(casa_case.id)
@@ -127,10 +127,10 @@ RSpec.describe "case_contacts/new", type: :system do
   end
 
   context "volunteer user" do
-    let(:organization) { create(:casa_org) }
-    let!(:empty) { create(:contact_type_group, name: "Empty", casa_org: organization) }
-    let!(:grp_with_hidden) { create(:contact_type_group, name: "OnlyHiddenTypes", casa_org: organization) }
-    let!(:hidden_type) { create(:contact_type, name: "Hidden", active: false, contact_type_group: grp_with_hidden) }
+    let(:organization) { build(:casa_org) }
+    let!(:empty) { build(:contact_type_group, name: "Empty", casa_org: organization) }
+    let!(:grp_with_hidden) { build(:contact_type_group, name: "OnlyHiddenTypes", casa_org: organization) }
+    let!(:hidden_type) { build(:contact_type, name: "Hidden", active: false, contact_type_group: grp_with_hidden) }
 
     it "is successful", js: true do
       volunteer = create(:volunteer, :with_casa_cases)
@@ -350,9 +350,9 @@ RSpec.describe "case_contacts/new", type: :system do
 
     context "with no contact types set for the volunteer's cases" do
       it "renders all of the org's contact types", js: true do
-        org = create(:casa_org)
+        org = build_stubbed(:casa_org)
         create_contact_types(org)
-        volunteer = create(:volunteer, :with_casa_cases, casa_org: org)
+        volunteer = build_stubbed(:volunteer, :with_casa_cases, casa_org: org)
 
         sign_in volunteer
 
@@ -366,7 +366,7 @@ RSpec.describe "case_contacts/new", type: :system do
 
     context "with specific contact types allowed for the volunteer's cases" do
       it "only renders contact types that are allowed for the volunteer's cases", js: true do
-        org = create(:casa_org)
+        org = build(:casa_org)
         contact_type_group = create_contact_types(org)
         volunteer = create(:volunteer, :with_casa_cases, casa_org: org)
         contact_types_for_cases = contact_type_group.contact_types.reject { |ct| ct.name == "Attorney" }

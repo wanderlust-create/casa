@@ -1,12 +1,12 @@
 require "rails_helper"
 
 RSpec.describe "casa_cases/show", type: :system do
-  let(:organization) { create(:casa_org) }
-  let(:admin) { create(:casa_admin, casa_org: organization) }
-  let(:volunteer) { create(:volunteer, display_name: "Bob Loblaw", casa_org: organization) }
-  let(:casa_case) { create(:casa_case, casa_org: organization, case_number: "CINA-1") }
+  let(:organization) { build(:casa_org) }
+  let(:admin) { build(:casa_admin, casa_org: organization) }
+  let(:volunteer) { build(:volunteer, display_name: "Bob Loblaw", casa_org: organization) }
+  let(:casa_case) { build(:casa_case, casa_org: organization, case_number: "CINA-1") }
   let!(:case_assignment) { create(:case_assignment, volunteer: volunteer, casa_case: casa_case) }
-  let!(:case_contact) { create(:case_contact, creator: volunteer, casa_case: casa_case) }
+  let!(:case_contact) { build(:case_contact, creator: volunteer, casa_case: casa_case) }
 
   before do
     sign_in user

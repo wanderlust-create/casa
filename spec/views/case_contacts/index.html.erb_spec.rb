@@ -6,7 +6,7 @@ RSpec.describe "case_contacts/index", type: :view do
   before do
     enable_pundit(view, user)
     allow(view).to receive(:current_user).and_return(user)
-    case_contact = create(:case_contact)
+    case_contact = build_stubbed(:case_contact)
     assign :case_contact, case_contact
     assign :casa_cases, [case_contact.casa_case]
     render template: "case_contacts/index"

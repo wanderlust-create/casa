@@ -18,7 +18,7 @@ RSpec.describe EmancipationCategory, type: :model do
   end
 
   context "#add_option" do
-    let(:emancipation_category) { create(:emancipation_category) }
+    let(:emancipation_category) { build_stubbed(:emancipation_category) }
 
     after(:each) do
       EmancipationOption.category_options(emancipation_category.id).destroy_all

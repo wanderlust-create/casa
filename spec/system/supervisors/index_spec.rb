@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "supervisors/index", type: :system do
-  let(:organization) { create(:casa_org) }
+  let(:organization) { build(:casa_org) }
   let(:user) { create(:supervisor, casa_org: organization) }
 
   it "can edit supervisor by clicking on the edit link from the supervisors list page" do

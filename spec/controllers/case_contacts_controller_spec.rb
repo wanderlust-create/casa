@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe CaseContactsController, type: :controller do
-  let(:organization) { create(:casa_org) }
+  let(:organization) { build(:casa_org) }
   let(:volunteer) { create(:volunteer, :with_casa_cases, casa_org: organization) }
   let(:case_id) { volunteer.casa_cases.first.id }
   let!(:contact_type_group_one) do

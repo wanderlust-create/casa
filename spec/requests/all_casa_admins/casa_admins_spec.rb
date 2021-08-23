@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "All-Casa Admin" do
-  let(:all_casa_admin) { create(:all_casa_admin) }
+  let(:all_casa_admin) { build(:all_casa_admin) }
   let(:casa_org) { create(:casa_org) }
 
   before { sign_in all_casa_admin }

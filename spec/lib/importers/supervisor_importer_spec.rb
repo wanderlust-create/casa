@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe SupervisorImporter do
-  let!(:import_user) { create(:casa_admin) }
+  let!(:import_user) { build_stubbed(:casa_admin) }
   let(:casa_org_id) { import_user.casa_org.id }
 
   # Use of the static method SupervisorImporter.import_volunteers functions identically to SupervisorImporter.new(...).import_volunteers
@@ -41,7 +41,7 @@ RSpec.describe SupervisorImporter do
       expect(alert[:type]).to eq(:error)
       expect(alert[:message]).to include("Not all rows were imported.")
 
-      import_user = create(:casa_admin)
+      import_user = build_stubbed(:casa_admin)
 
       import_file_path = Rails.root.join("spec", "fixtures", "volunteers.csv")
       VolunteerImporter.new(import_file_path, import_user.casa_org.id).import_volunteers
@@ -55,8 +55,8 @@ RSpec.describe SupervisorImporter do
     end
 
     it "returns an error message when there are only some volunteers not imported" do
-      import_user = create(:casa_admin)
-      create(:volunteer, email: "volunteer1@example.net")
+      import_user = build_stubbed(:casa_admin)
+      build_stubbed(:volunteer, email: "volunteer1@example.net")
       import_supervisor_path = Rails.root.join("spec", "fixtures", "supervisor_volunteers.csv")
       alert = SupervisorImporter.new(import_supervisor_path, import_user.casa_org.id).import_supervisors
 

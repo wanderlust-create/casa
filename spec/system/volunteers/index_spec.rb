@@ -1,15 +1,15 @@
 require "rails_helper"
 
 RSpec.describe "view all volunteers", type: :system do
-  let(:organization) { create(:casa_org) }
+  let(:organization) { build(:casa_org) }
   let(:admin) { create(:casa_admin, casa_org: organization) }
 
   context "admin user" do
     context "when no logo_url" do
       it "can see volunteers and navigate to their cases", js: true do
         volunteer = create(:volunteer, :with_assigned_supervisor, display_name: "User 1", email: "casa@example.com", casa_org: organization)
-        volunteer.casa_cases << create(:casa_case, casa_org: organization)
-        volunteer.casa_cases << create(:casa_case, casa_org: organization)
+        volunteer.casa_cases << build(:casa_case, casa_org: organization)
+        volunteer.casa_cases << build(:casa_case, casa_org: organization)
         casa_case = volunteer.casa_cases[0]
 
         sign_in admin
@@ -45,7 +45,7 @@ RSpec.describe "view all volunteers", type: :system do
     end
 
     it "displays last contact made by default", js: true do
-      create(:volunteer, :with_assigned_supervisor, display_name: "User 1", email: "casa@example.com", casa_org: organization)
+      build_stubbed(:volunteer, :with_assigned_supervisor, display_name: "User 1", email: "casa@example.com", casa_org: organization)
 
       sign_in admin
 

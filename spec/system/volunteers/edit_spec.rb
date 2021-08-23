@@ -22,7 +22,7 @@ RSpec.describe "volunteers/edit", type: :system do
 
     context "with invalid data" do
       it "shows error message for duplicate email" do
-        volunteer.supervisor = create(:supervisor)
+        volunteer.supervisor = build(:supervisor)
         fill_in "volunteer_email", with: admin.email
         fill_in "volunteer_display_name", with: "Mickey Mouse"
         click_on "Submit"
@@ -57,7 +57,7 @@ RSpec.describe "volunteers/edit", type: :system do
   end
 
   it "allows an admin to reactivate a volunteer" do
-    inactive_volunteer = create(:volunteer, casa_org_id: organization.id)
+    inactive_volunteer = build(:volunteer, casa_org_id: organization.id)
     inactive_volunteer.deactivate
 
     sign_in admin
@@ -72,7 +72,7 @@ RSpec.describe "volunteers/edit", type: :system do
   end
 
   it "allows the admin to unassign a volunteer from a supervisor" do
-    supervisor = create(:supervisor, display_name: "Haka Haka")
+    supervisor = build(:supervisor, display_name: "Haka Haka")
     volunteer = create(:volunteer, display_name: "Bolu Bolu", supervisor: supervisor)
 
     sign_in admin
@@ -108,7 +108,7 @@ RSpec.describe "volunteers/edit", type: :system do
   end
 
   context "when volunteer is assigned to multiple cases" do
-    let(:casa_org) { create(:casa_org) }
+    let(:casa_org) { build(:casa_org) }
     let!(:supervisor) { create(:casa_admin, casa_org: casa_org) }
     let!(:volunteer) { create(:volunteer, casa_org: casa_org, display_name: "AAA") }
     let!(:casa_case_1) { create(:casa_case, casa_org: casa_org, case_number: "CINA1") }

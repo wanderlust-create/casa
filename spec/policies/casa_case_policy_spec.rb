@@ -3,13 +3,13 @@ require "rails_helper"
 RSpec.describe CasaCasePolicy do
   subject { described_class }
 
-  let(:organization) { create(:casa_org) }
+  let(:organization) { build(:casa_org) }
 
-  let(:casa_admin) { create(:casa_admin, casa_org: organization) }
-  let(:casa_case) { create(:casa_case, casa_org: organization) }
-  let(:volunteer) { create(:volunteer, casa_org: organization) }
-  let(:supervisor) { create(:supervisor, casa_org: organization) }
-  let(:casa_admin) { create(:casa_admin, casa_org: organization) }
+  let(:casa_admin) { build(:casa_admin, casa_org: organization) }
+  let(:casa_case) { build(:casa_case, casa_org: organization) }
+  let(:volunteer) { build(:volunteer, casa_org: organization) }
+  let(:supervisor) { build(:supervisor, casa_org: organization) }
+  let(:casa_admin) { build(:casa_admin, casa_org: organization) }
 
   permissions :update_case_number? do
     context "when user is an admin" do
@@ -106,17 +106,17 @@ RSpec.describe CasaCasePolicy do
 
     context "when a supervisor belongs to the same org as the case" do
       it "allows the supervisor" do
-        supervisor = create(:supervisor, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        supervisor = build(:supervisor, casa_org: organization)
+        casa_case = build_stubbed(:casa_case, casa_org: organization)
         expect(subject).to permit(supervisor, casa_case)
       end
     end
 
     context "when a supervisor does not belong to the same org as the case" do
-      let(:different_organization) { create(:casa_org) }
+      let(:different_organization) { build(:casa_org) }
 
       it "does not allow the supervisor" do
-        supervisor = create(:supervisor, casa_org: organization)
+        supervisor = build_stubbed(:supervisor, casa_org: organization)
         casa_case = create(:casa_case, casa_org: different_organization)
         expect(subject).to_not permit(supervisor, casa_case)
       end
@@ -125,7 +125,7 @@ RSpec.describe CasaCasePolicy do
     context "when volunteer is assigned" do
       it "allows the volunteer" do
         volunteer = create(:volunteer, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        casa_case = build(:casa_case, casa_org: organization)
         volunteer.casa_cases << casa_case
         expect(subject).to permit(volunteer, casa_case)
       end
@@ -146,16 +146,16 @@ RSpec.describe CasaCasePolicy do
     context "when a supervisor belongs to the same org as the case" do
       it "allows the supervisor" do
         supervisor = create(:supervisor, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        casa_case = build_stubbed(:casa_case, casa_org: organization)
         expect(subject).to permit(supervisor, casa_case)
       end
     end
 
     context "when a supervisor does not belong to the same org as the case" do
-      let(:different_organization) { create(:casa_org) }
+      let(:different_organization) { build(:casa_org) }
 
       it "does not allow the supervisor" do
-        supervisor = create(:supervisor, casa_org: organization)
+        supervisor = build_stubbed(:supervisor, casa_org: organization)
         casa_case = create(:casa_case, casa_org: different_organization)
         expect(subject).to_not permit(supervisor, casa_case)
       end
@@ -185,16 +185,16 @@ RSpec.describe CasaCasePolicy do
     context "when a supervisor belongs to the same org as the case" do
       it "allows the supervisor" do
         supervisor = create(:supervisor, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        casa_case = build_stubbed(:casa_case, casa_org: organization)
         expect(subject).to permit(supervisor, casa_case)
       end
     end
 
     context "when a supervisor does not belong to the same org as the case" do
-      let(:different_organization) { create(:casa_org) }
+      let(:different_organization) { build(:casa_org) }
 
       it "does not allow the supervisor" do
-        supervisor = create(:supervisor, casa_org: organization)
+        supervisor = build_stubbed(:supervisor, casa_org: organization)
         casa_case = create(:casa_case, casa_org: different_organization)
         expect(subject).to_not permit(supervisor, casa_case)
       end
@@ -203,7 +203,7 @@ RSpec.describe CasaCasePolicy do
     context "when volunteer is assigned" do
       it "allows the volunteer" do
         volunteer = create(:volunteer, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        casa_case = build(:casa_case, casa_org: organization)
         volunteer.casa_cases << casa_case
         is_expected.to permit(volunteer, casa_case)
       end
@@ -224,16 +224,16 @@ RSpec.describe CasaCasePolicy do
     context "when a supervisor belongs to the same org as the case" do
       it "allows the supervisor" do
         supervisor = create(:supervisor, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        casa_case = build_stubbed(:casa_case, casa_org: organization)
         expect(subject).to permit(supervisor, casa_case)
       end
     end
 
     context "when a supervisor does not belong to the same org as the case" do
-      let(:different_organization) { create(:casa_org) }
+      let(:different_organization) { build(:casa_org) }
 
       it "does not allow the supervisor" do
-        supervisor = create(:supervisor, casa_org: organization)
+        supervisor = build_stubbed(:supervisor, casa_org: organization)
         casa_case = create(:casa_case, casa_org: different_organization)
         expect(subject).to_not permit(supervisor, casa_case)
       end
@@ -242,7 +242,7 @@ RSpec.describe CasaCasePolicy do
     context "when volunteer is assigned" do
       it "allows the volunteer" do
         volunteer = create(:volunteer, casa_org: organization)
-        casa_case = create(:casa_case, casa_org: organization)
+        casa_case = build(:casa_case, casa_org: organization)
         volunteer.casa_cases << casa_case
         is_expected.to permit(volunteer, casa_case)
       end

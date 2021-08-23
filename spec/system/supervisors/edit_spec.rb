@@ -37,7 +37,7 @@ RSpec.describe "supervisors/edit", type: :system do
     end
 
     it "can go to the supervisor edit page and see red message when there are no active volunteers" do
-      supervisor = create :supervisor, casa_org: organization
+      supervisor = create(:supervisor, casa_org: organization)
 
       sign_in user
 
@@ -87,7 +87,7 @@ RSpec.describe "supervisors/edit", type: :system do
     end
 
     context "when editing other supervisor" do
-      let(:user) { create(:supervisor, casa_org: organization) }
+      let(:user) { build_stubbed(:supervisor, casa_org: organization) }
       let(:supervisor) { create(:supervisor, casa_org: organization) }
 
       it "sees red message when there are no active volunteers" do
