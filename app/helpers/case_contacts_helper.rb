@@ -24,6 +24,24 @@ module CaseContactsHelper
     send_to_case(casa_case)
   end
 
+  def created_by_link(contact)
+    if Pundit.policy(current_user, contact).edit?
+      if current_user.volunteer?
+          contact.creator&.display_name
+      else
+        if contact.creator&.supervisor?
+          link_to contact.creator&.display_name, edit_supervisor_path(contact.creator)
+        elsif contact.creator&.casa_admin?
+          link_to contact.creator&.display_name, edit_users_path
+        else
+          link_to contact.creator&.display_name, edit_volunteer_path(contact.creator) 
+        end   
+      end
+    else
+     contact.creator&.display_name
+    end
+  end
+
   private
 
   def send_home
