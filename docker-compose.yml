@@ -8,8 +8,8 @@ services:
       - "3000:3000"
       - "4000:4000"
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/casa
+      - /casa/node_modules
     env_file:
       - config/docker.env
     depends_on:
@@ -26,14 +26,14 @@ services:
     ports:
       - "5435:5432"
 
-  selenium_chrome:
-    image: selenium/standalone-chrome-debug
-    logging:
-      driver: none
-    ports:
-      - "5900:5900"
-    volumes:
-      - ./tmp/downloads:/home/seluser/Downloads
+  # selenium_chrome:
+  #   image: selenium/standalone-chrome-debug
+  #   logging:
+  #     driver: none
+  #   ports:
+  #     - "5900:5900"
+  #   volumes:
+  #     - ./tmp/downloads:/home/seluser/Downloads
 
 volumes:
   db_data:

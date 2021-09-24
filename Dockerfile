@@ -1,46 +1,27 @@
-FROM ruby:3.0.2-alpine AS builder
+FROM ruby:3.0.2 AS builder
 
-LABEL maintainer="jeanine@littleforestconsulting.com"
+LABEL maintainer="mohamed.asan@freshworks.com"
 
-RUN apk update && apk upgrade && apk add --update --no-cache \
-  build-base \
-  curl-dev \
-  nodejs \
-  postgresql-dev \
-  tzdata \
-  vim \
-  yarn && rm -rf /var/cache/apk/*
-
-ARG RAILS_ROOT=/usr/src/app/
-WORKDIR $RAILS_ROOT
-
-COPY package*.json yarn.lock $RAILS_ROOT
-RUN yarn install --check-files
-
-COPY Gemfile* $RAILS_ROOT
-RUN bundle install
-
-COPY . .
-
-### BUILD STEP DONE ###
-
-FROM ruby:3.0.2-alpine
-
-ARG RAILS_ROOT=/usr/src/app/
-
-RUN apk update && apk upgrade && apk add --update --no-cache \
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  curl \
   bash \
-  imagemagick \
-  nodejs \
+  vim \
+  postgresql \
   postgresql-client \
   tzdata \
-  vim \
-  yarn && rm -rf /var/cache/apk/*
+  imagemagick && \
+  curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+  apt-get update && apt-get install -y nodejs yarn
 
+ENV RAILS_ROOT=/casa/
+COPY . $RAILS_ROOT
 WORKDIR $RAILS_ROOT
 
-COPY --from=builder $RAILS_ROOT $RAILS_ROOT
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+RUN bundle install
+RUN yarn install --check-files
 
 EXPOSE 3000
 
