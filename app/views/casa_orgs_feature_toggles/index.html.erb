@@ -1,0 +1,28 @@
+<h1>Feature Toggles</h1>
+
+<div class="card card-container">
+  <div class="card-body h-100">
+    <h5><b>New Case Contact Form<b></h5>
+    <% @feature_toggles.each do |ft| %>
+      <%= form_with model: ft, url: feature_toggle_path(ft), method: :put do |form| %>
+        <div class="custom-control custom-switch pt-2">
+          <%= form.check_box :enabled, class: "custom-control-input", onclick: "handleSubmit(this)", style: "width: 50px; z-index: 2" %>
+          <label class="custom-control-label" for="toggle-#{ft.id}"><%= ft.feature_toggle.name.titleize %></label>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  const handleSubmit = el => {
+    const submit = new Promise((resolve, reject) => {
+
+    el.disabled = true
+    el.form.submit()
+    setTimeout(() => resolve("done"), 500);
+    })
+
+    submit.then(() => window.location.reload())
+  }
+</script>

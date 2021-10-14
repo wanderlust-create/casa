@@ -10,6 +10,8 @@ class CasaOrg < ApplicationRecord
   has_many :contact_type_groups, dependent: :destroy
   has_many :hearing_types, dependent: :destroy
   has_many :case_assignments, through: :users, source: :casa_cases
+  has_many :casa_orgs_feature_toggles
+  accepts_nested_attributes_for :casa_orgs_feature_toggles
   has_one_attached :logo
   has_one_attached :court_report_template
 

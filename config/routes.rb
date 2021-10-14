@@ -67,6 +67,9 @@ Rails.application.routes.draw do
       get :download_failed
     end
   end
+
+  resources :feature_toggles, controller: :casa_orgs_feature_toggles, only: %i[index update]
+
   resources :case_contact_reports, only: %i[index]
   resources :mileage_reports, only: %i[index]
   resources :casa_orgs, only: %i[edit update]

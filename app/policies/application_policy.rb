@@ -66,6 +66,10 @@ class ApplicationPolicy
     is_volunteer? || is_supervisor? || is_admin?
   end
 
+  def see_feature_toggles_page?
+    is_admin?
+  end
+
   alias_method :modify_organization?, :is_admin?
   alias_method :see_import_page?, :is_admin?
 end

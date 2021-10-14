@@ -38,6 +38,7 @@ class CasaCase < ApplicationRecord
 
   has_many :casa_case_contact_types
   has_many :contact_types, through: :casa_case_contact_types, source: :contact_type
+  validates :contact_types, presence: true
   accepts_nested_attributes_for :casa_case_contact_types
 
   has_many :case_court_orders, -> { order "id asc" }, dependent: :destroy

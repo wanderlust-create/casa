@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_11_195857) do
+ActiveRecord::Schema.define(version: 2021_10_13_134917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,16 @@ ActiveRecord::Schema.define(version: 2021_10_11_195857) do
     t.boolean "show_driving_reimbursement", default: true
   end
 
+  create_table "casa_orgs_feature_toggles", force: :cascade do |t|
+    t.bigint "casa_org_id"
+    t.bigint "feature_toggle_id"
+    t.boolean "enabled", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["casa_org_id"], name: "index_casa_orgs_feature_toggles_on_casa_org_id"
+    t.index ["feature_toggle_id"], name: "index_casa_orgs_feature_toggles_on_feature_toggle_id"
+  end
+
   create_table "case_assignments", force: :cascade do |t|
     t.bigint "casa_case_id", null: false
     t.bigint "volunteer_id", null: false
@@ -212,6 +222,12 @@ ActiveRecord::Schema.define(version: 2021_10_11_195857) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["emancipation_category_id", "name"], name: "index_emancipation_options_on_emancipation_category_id_and_name", unique: true
     t.index ["emancipation_category_id"], name: "index_emancipation_options_on_emancipation_category_id"
+  end
+
+  create_table "feature_toggles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "followups", force: :cascade do |t|
