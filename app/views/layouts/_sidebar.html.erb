@@ -54,6 +54,23 @@
           <% if policy(:application).see_feature_toggles_page? %>
             <%= link_to t(".link.feature_toggles"), feature_toggles_path, class: "list-group-item" %>
           <% end %>
+          <% if policy(:application).see_system_settings_menu? %>
+            <ul class="list-unstyled list-group-item border-0 m-0">
+              <li>
+                  <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle side-bar-item text-white">
+                    <%= t(".menu_item.system_settings") %>
+                  </a>
+                  <ul class="collapse list-unstyled text-white" id="homeSubmenu">
+                      <li>
+                          <a href="#" class="text-white list-group-item pt-4 side-bar-item">Feature Toggles</a>
+                      </li>
+                      <li>
+                          <a href="#" class="text-white list-group-item pb-0 side-bar-item">Mileage Rates</a>
+                      </li>
+                  </ul>
+              </li>
+            </ul>
+          <% end %>
           <% if policy(:application).modify_organization? %>
             <%= link_to t(".link.edit_organization"), edit_casa_org_path(current_organization), class: "list-group-item" %>
           <% end %>

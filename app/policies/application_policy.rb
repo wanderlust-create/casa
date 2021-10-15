@@ -70,6 +70,10 @@ class ApplicationPolicy
     is_admin?
   end
 
+  def see_system_settings_menu?
+    is_admin?
+  end
+
   alias_method :modify_organization?, :is_admin?
   alias_method :see_import_page?, :is_admin?
 end
