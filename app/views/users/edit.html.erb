@@ -13,6 +13,13 @@
         <%= form.text_field :display_name, class: "form-control" %>
       </div>
 
+      <div class="field form-group">
+        <%= form.check_box :email_notifications, class: "form-control" %>
+        <%= form.label :email_notifications %>
+        <%= form.check_box :sms_notifications, class: "form-control" %>
+        <%= form.label :sms_notifications %>
+      </div>
+
       <%= form.hidden_field :casa_org_id, value: current_user.casa_org_id %>
 
       <%= render "/shared/invite_login", resource: current_user %>

@@ -22,6 +22,7 @@ end
 #  current_sign_in_ip     :string
 #  display_name           :string           default(""), not null
 #  email                  :string           default(""), not null
+#  email_notifications    :boolean
 #  encrypted_password     :string           default(""), not null
 #  invitation_accepted_at :datetime
 #  invitation_created_at  :datetime
@@ -35,6 +36,7 @@ end
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
+#  sms_notifications      :boolean
 #  type                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
