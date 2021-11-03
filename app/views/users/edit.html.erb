@@ -13,12 +13,18 @@
         <%= form.text_field :display_name, class: "form-control" %>
       </div>
 
-      <div class="field form-group">
-        <%= form.check_box :email_notifications, class: "form-control" %>
-        <%= form.label :email_notifications %>
-        <%= form.check_box :sms_notifications, class: "form-control" %>
-        <%= form.label :sms_notifications %>
-      </div>
+      <% if @notification_settings_enabled %>
+        <div class="field form-group">
+          <div>
+            <%= form.check_box :email_notifications %>
+            Receive Email Notifications
+          </div>
+          <div>
+            <%= form.check_box :sms_notifications %>
+            Receive SMS Notifications
+          </div>
+        </div>
+      <% end %>
 
       <%= form.hidden_field :casa_org_id, value: current_user.casa_org_id %>
 

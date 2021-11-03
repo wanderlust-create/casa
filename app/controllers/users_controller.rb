@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   after_action :reset_custom_error_heading, only: [:update_password]
 
   def edit
+    @notification_settings_enabled = Feature.find_by_name("notification_settings")&.enabled?
   end
 
   def update
