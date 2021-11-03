@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_29_033530) do
+ActiveRecord::Schema.define(version: 2021_11_03_163618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,6 +217,14 @@ ActiveRecord::Schema.define(version: 2021_10_29_033530) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["emancipation_category_id", "name"], name: "index_emancipation_options_on_emancipation_category_id_and_name", unique: true
     t.index ["emancipation_category_id"], name: "index_emancipation_options_on_emancipation_category_id"
+  end
+
+  create_table "features", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "enabled"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "followups", force: :cascade do |t|
