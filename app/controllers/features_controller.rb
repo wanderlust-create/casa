@@ -1,5 +1,6 @@
 class FeaturesController < ApplicationController
   before_action :set_feature, only: %i[ show edit update destroy ]
+  before_action :authorize_casa_admins
 
   # GET /features or /features.json
   def index
@@ -65,5 +66,9 @@ class FeaturesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def feature_params
       params.fetch(:feature, {})
+    end
+
+    def authorize_casa_admins
+      authorize CasaAdmin
     end
 end
