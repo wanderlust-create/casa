@@ -11,6 +11,22 @@
     <%= form.text_field :display_name, class: "form-control" %>
   </div>
 
+  <div class="field form-group">
+    <%= form.label :address %>
+    <%= form.fields_for :address do |add| %>
+      <%= add.label :street_address %>
+      <%= add.text_field :street_address %>
+      <%= add.label :unit %>
+      <%= add.text_field :unit %>
+      <%= add.label :city %>
+      <%= add.text_field :city %>
+      <%= add.label :state %>
+      <%= add.text_field :state %>
+      <%= add.label :zip %>
+      <%= add.text_field :zip %>
+    <% end %>
+  </div>
+
   <div class="actions">
     <%= form.submit "Create User", class: "btn btn-primary" %>
   </div>

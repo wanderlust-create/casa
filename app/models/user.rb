@@ -33,6 +33,8 @@ class User < ApplicationRecord
 
   has_many :notes, as: :notable
 
+  has_one :addresses
+
   scope :active, -> { where(active: true) }
 
   scope :inactive, -> { where(active: false) }
