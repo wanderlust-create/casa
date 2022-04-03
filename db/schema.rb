@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_23_145733) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_03_184756) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_145733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["case_contact_id"], name: "index_additional_expenses_on_case_contact_id"
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "street_address"
+    t.string "unit"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "all_casa_admins", force: :cascade do |t|
@@ -422,6 +434,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_145733) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "additional_expenses", "case_contacts"
+  add_foreign_key "addresses", "users"
   add_foreign_key "casa_case_emancipation_categories", "casa_cases"
   add_foreign_key "casa_case_emancipation_categories", "emancipation_categories"
   add_foreign_key "casa_cases", "casa_orgs"
