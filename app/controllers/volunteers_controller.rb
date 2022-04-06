@@ -141,8 +141,9 @@ class VolunteersController < ApplicationController
   end
 
   def create_address_params
-    address_params = params.dig("volunteer", "address")
+    address_params = params.dig("address")
+    #.require(:volunteer, :address)
     address_params
-    .permit(:street_address, :unit, :city, :state, :zip)
+    .permit(:street_address, :unit, :city, :state, :zip, :id)
   end
 end
