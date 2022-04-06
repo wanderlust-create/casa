@@ -33,7 +33,8 @@ class User < ApplicationRecord
 
   has_many :notes, as: :notable
 
-  has_one :addresses
+  has_one :address
+  accepts_nested_attributes_for :address
 
   scope :active, -> { where(active: true) }
 

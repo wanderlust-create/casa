@@ -22,23 +22,21 @@ class VolunteersController < ApplicationController
   def new
     @volunteer = current_organization.volunteers.new
     authorize @volunteer
-    @address = Address.new
+    @volunteer.build_address
+
   end
 
   def create
     @volunteer = current_organization.volunteers.new(create_volunteer_params)
     authorize @volunteer
-    @address = Address.new(create_address_params)
 
     
     if @volunteer.save
-      @address.save
       @volunteer.invite!(current_user)
       redirect_to edit_volunteer_path(@volunteer)
     else
       render :new
     end
-    binding.pry
   end
 
   def edit
@@ -138,12 +136,5 @@ class VolunteersController < ApplicationController
     VolunteerParameters
       .new(params)
       .without_active
-  end
-
-  def create_address_params
-    address_params = params.dig("address")
-    #.require(:volunteer, :address)
-    address_params
-    .permit(:street_address, :unit, :city, :state, :zip, :id)
   end
 end

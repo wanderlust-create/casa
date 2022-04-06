@@ -7,7 +7,8 @@ class UserParameters < SimpleDelegator
         :display_name,
         :password,
         :active,
-        :type
+        :type, 
+        address_attributes: [:street_address, :unit, :city, :state, :zip, :id] 
       )
 
     super(params)

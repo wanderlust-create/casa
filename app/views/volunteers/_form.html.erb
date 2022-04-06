@@ -12,9 +12,7 @@
   </div>
 
   <div class="field form-group">
-    <%= fields_for (:address) do |add| %>
-      <%= add.hidden_field :id, { :value => form.index }%>
-      <%= add.hidden_field :user_id, { :value => @volunteer.id }%>
+    <%= form.fields_for :address do |add| %>
       <%= add.label :street_address %>
       <%= add.text_field :street_address %>
       <%= add.label :unit %>
