@@ -13,16 +13,28 @@
 
   <div class="field form-group">
     <%= form.fields_for :address do |add| %>
-      <%= add.label :street_address %>
-      <%= add.text_field :street_address %>
-      <%= add.label :unit %>
-      <%= add.text_field :unit %>
-      <%= add.label :city %>
-      <%= add.text_field :city %>
-      <%= add.label :state %>
-      <%= add.text_field :state %>
-      <%= add.label :zip %>
-      <%= add.text_field :zip %>
+      <div class="street-grid">
+        <div>
+          <%= add.label :street_address %>
+        </div>
+        <div>
+          <%= add.label :unit %>
+        </div>
+      </div>
+      <div class="street-grid">
+        <%= add.text_field :street_address, class: "form-group form-control" %>
+        <%= add.text_field :unit, class: "form-group form-control", size: "10" %>
+      </div>
+      <div class="city-st-zip-grid">
+        <%= add.label :city %>
+        <%= add.label :state %>
+        <%= add.label :zip %>
+      </div>
+      <div class="city-st-zip-grid">
+        <%= add.text_field :city, class: "form-group form-control" %>
+        <%= add.text_field :state, class: "form-group form-control" %>
+        <%= add.text_field :zip, class: "form-group form-control" %>
+      </div>
     <% end %>
   </div>
 
