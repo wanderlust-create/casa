@@ -56,6 +56,15 @@
     <h6><strong><%= t(".label.transition_aged_youth") %>:</strong> <%= @casa_case.decorate.transition_aged_youth %></h6>
     </p>
 
+    <%# 
+      nesting h1-h6 inside a p is invalid HTML
+      p cannot contain block-level elements: https://www.w3.org/TR/html401/struct/text.html#h-9.3.1
+      block-level elements in HTML: https://www.w3schools.com/html/html_blocks.asp
+    %>
+    <div>
+      <h6><strong><%= t(".label.date_in_care") %></strong> <%= @casa_case.decorate.court_report_submitted_date %></h6>
+    </div>
+
     <p>
     <h6>
       <strong><%= t(".label.next_court_date") %>:</strong>
