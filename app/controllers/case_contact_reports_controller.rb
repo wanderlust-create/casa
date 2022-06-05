@@ -4,6 +4,7 @@ class CaseContactReportsController < ApplicationController
   after_action :verify_authorized
 
   def index
+    binding.pry
     authorize :application, :see_reports_page?
     case_contact_report = CaseContactReport.new(report_params)
 

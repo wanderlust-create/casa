@@ -5,6 +5,7 @@ class CasaCasesController < ApplicationController
   after_action :verify_authorized
 
   def index
+    
     authorize CasaCase
     org_cases = current_user.casa_org.casa_cases.includes(:assigned_volunteers)
     @casa_cases = policy_scope(org_cases).includes([:hearing_type, :judge])
@@ -13,6 +14,7 @@ class CasaCasesController < ApplicationController
   end
 
   def show
+    binding.pry  #method found 
     authorize @casa_case
 
     respond_to do |format|
